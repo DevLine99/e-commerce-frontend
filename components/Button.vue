@@ -1,11 +1,11 @@
 <template>
   <div>
-    <Nuxt />
+    <v-btn variant="outlined"> Button </v-btn>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'DefaultLayout',
+  name: 'Button',
 }
 </script>

@@ -1,11 +1,8 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <h1>My Dashboard</h1>
 </template>
-
 <script>
 export default {
-  name: 'DefaultLayout',
+  layout: 'dashboard',
 }
 </script>
