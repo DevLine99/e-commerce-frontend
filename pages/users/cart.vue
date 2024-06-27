@@ -1,7 +1,8 @@
 <template>
   <DefaultLayout>
     <div>
-      <h1>Welcome to Nuxt.js with Vuetify and Atomic Design</h1>
+      <h1>Cart Page</h1>
+      <!-- Add your cart details here -->
     </div>
   </DefaultLayout>
 </template>
@@ -13,5 +14,6 @@ export default {
   components: {
     DefaultLayout,
   },
+  middleware: 'auth',
 }
 </script>
