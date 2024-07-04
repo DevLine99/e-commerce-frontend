@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <v-app>
     <BaseNavbar />
     <Nuxt />
-  </div>
+  </v-app>
 </template>
 
 <script>
 import BaseNavbar from '~/components/organisms/BaseNavbar.vue'
+
 export default {
-  name: 'DefaultLayout',
   components: {
     BaseNavbar,
   },

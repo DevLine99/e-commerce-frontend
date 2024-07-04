@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <v-carousel hide-delimiters>
       <v-carousel-item :src="require('../assets/img/home/slider4.jpg')">
         <v-row class="fill-height" align="center" justify="center">
@@ -249,7 +249,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

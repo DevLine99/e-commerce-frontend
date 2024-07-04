@@ -14,16 +14,15 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="'Home'" />
+            <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-group prepend-icon="mdi-shopping" no-action>
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title>Shop</v-list-item-title>
             </v-list-item-content>
           </template>
-
           <v-list-item
             v-for="(item, i) in items"
             :key="i"
@@ -32,7 +31,7 @@
             exact
           >
             <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
@@ -41,7 +40,7 @@
             <v-icon>mdi-tshirt-v</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="'Product'" />
+            <v-list-item-title>Product</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -51,7 +50,7 @@
               <v-icon>mdi-cog-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-text="'Settings'" />
+              <v-list-item-title>Settings</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="logout">
@@ -59,7 +58,7 @@
               <v-icon>mdi-logout</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-text="'Logout'" />
+              <v-list-item-title>Logout</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -69,7 +68,7 @@
               <v-icon>mdi-login</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-text="'Login'" />
+              <v-list-item-title>Login</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item to="/auth/register" router exact>
@@ -77,7 +76,7 @@
               <v-icon>mdi-account-plus-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title v-text="'Register'" />
+              <v-list-item-title>Register</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -87,9 +86,9 @@
     <v-app-bar :clipped-left="clipped" app color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title style="width: 350px">
-        <a href="/" class="white--text" style="text-decoration: none"
-          ><v-icon>mdi-truck</v-icon>&nbsp;ShipIT</a
-        >
+        <a href="/" class="white--text" style="text-decoration: none">
+          <v-icon>mdi-truck</v-icon>&nbsp;ShipIT
+        </a>
       </v-toolbar-title>
       <v-text-field
         flat
@@ -102,7 +101,7 @@
       <v-spacer />
       <template v-if="isLoggedIn">
         <v-menu>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-avatar>
                 <v-img :src="user.avatar"></v-img>
@@ -155,11 +154,10 @@
 export default {
   data() {
     return {
-      drawer: false,
-      clipped: false,
+      drawer: true,
+      clipped: true,
       miniVariant: false,
-      showMobileSearch: false,
-      isLoggedIn: true,
+      isLoggedIn: false,
       user: {
         avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
       },

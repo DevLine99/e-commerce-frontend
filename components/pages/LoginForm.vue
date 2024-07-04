@@ -11,11 +11,7 @@
             <FormGroup v-model="password" label="Password" type="password" />
           </v-card-text>
           <v-card-actions>
-            <BaseButton
-              color="primary"
-              text="Login"
-              @click="login"
-            ></BaseButton>
+            <BaseButton color="primary" text="Login" @click="login" />
           </v-card-actions>
         </v-card>
       </v-col>

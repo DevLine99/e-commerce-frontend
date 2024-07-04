@@ -1,7 +1,9 @@
 <template>
-  <DefaultLayout>
+  <!-- <DefaultLayout> -->
+  <v-main>
     <LoginForm />
-  </DefaultLayout>
+  </v-main>
+  <!-- </DefaultLayout> -->
 </template>
 
 <script>
