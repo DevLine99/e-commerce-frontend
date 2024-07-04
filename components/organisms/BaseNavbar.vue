@@ -1,39 +1,196 @@
 <template>
-  <v-app-bar app color="primary" dark>
-    <v-toolbar-title>
-      <nuxt-link to="/" class="white--text">Nuxt Portfolio</nuxt-link>
-    </v-toolbar-title>
+  <v-app>
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      app
+      color="#171f36"
+      dark
+    >
+      <v-list>
+        <v-list-item to="/" router exact>
+          <v-list-item-action>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="'Home'" />
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-group prepend-icon="mdi-shopping" no-action>
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Shop</v-list-item-title>
+            </v-list-item-content>
+          </template>
 
-    <v-spacer></v-spacer>
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            :href="item.to"
+            router
+            exact
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-list-item to="/products" router exact>
+          <v-list-item-action>
+            <v-icon>mdi-tshirt-v</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="'Product'" />
+          </v-list-item-content>
+        </v-list-item>
 
-    <NavbarItem to="/">Home</NavbarItem>
-    <NavbarItem to="/products">Products</NavbarItem>
-    <NavbarItem to="/user/cart">Cart</NavbarItem>
-    <NavbarItem to="/user/profile">Profile</NavbarItem>
+        <template v-if="isLoggedIn">
+          <v-list-item to="/settings" router exact>
+            <v-list-item-action>
+              <v-icon>mdi-cog-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="'Settings'" />
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-action>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="'Logout'" />
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+        <template v-else>
+          <v-list-item to="/auth/login" router exact>
+            <v-list-item-action>
+              <v-icon>mdi-login</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="'Login'" />
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/auth/register" router exact>
+            <v-list-item-action>
+              <v-icon>mdi-account-plus-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="'Register'" />
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
 
-    <v-spacer></v-spacer>
-
-    <BaseButton color="secondary" outlined text="Login">
-      <nuxt-link to="/auth/login" class="white--text">
-        <strong>Login</strong>
-      </nuxt-link>
-    </BaseButton>
-    <BaseButton color="secondary" outlined text="register">
-      <nuxt-link to="/auth/register" class="white--text">
-        <strong>Register</strong>
-      </nuxt-link>
-    </BaseButton>
-  </v-app-bar>
+    <v-app-bar :clipped-left="clipped" app color="primary" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title style="width: 350px">
+        <a href="/" class="white--text" style="text-decoration: none"
+          ><v-icon>mdi-truck</v-icon>&nbsp;ShipIT</a
+        >
+      </v-toolbar-title>
+      <v-text-field
+        flat
+        solo-inverted
+        hide-details
+        prepend-inner-icon="mdi-magnify"
+        label="Search"
+        class="hidden-sm-and-down pl-10 ml-4"
+      />
+      <v-spacer />
+      <template v-if="isLoggedIn">
+        <v-menu>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-avatar>
+                <v-img :src="user.avatar"></v-img>
+              </v-avatar>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="goToProfile">
+              <v-list-item-action>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Profile</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-action>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Logout</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-btn icon @click="goToNotifications">
+          <v-badge content="2" color="green" overlap>
+            <v-icon>mdi-bell</v-icon>
+          </v-badge>
+        </v-btn>
+        <v-btn to="/cart" icon>
+          <v-badge content="2" color="green" overlap>
+            <v-icon>mdi-cart</v-icon>
+          </v-badge>
+        </v-btn>
+      </template>
+      <template v-else>
+        <v-btn to="/auth/login" icon>
+          <v-icon>mdi-login</v-icon>
+        </v-btn>
+        <v-btn to="/auth/register" icon>
+          <v-icon>mdi-account-plus-outline</v-icon>
+        </v-btn>
+      </template>
+    </v-app-bar>
+  </v-app>
 </template>
 
 <script>
-import NavbarItem from '~/components/molecules/NavbarItem.vue'
-import BaseButton from '~/components/atoms/BaseButton.vue'
-
 export default {
-  components: {
-    NavbarItem,
-    BaseButton,
+  data() {
+    return {
+      drawer: false,
+      clipped: false,
+      miniVariant: false,
+      showMobileSearch: false,
+      isLoggedIn: true,
+      user: {
+        avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
+      },
+      items: [
+        {
+          title: 'Cart',
+          to: '/user/cart',
+        },
+        {
+          title: 'Jackets',
+          to: '/shop',
+        },
+      ],
+    }
+  },
+  methods: {
+    logout() {
+      this.isLoggedIn = false
+    },
+    login() {
+      this.isLoggedIn = true
+    },
+    goToProfile() {
+      this.$router.push('/user/profile')
+    },
+    goToNotifications() {
+      this.$router.push('/notifications')
+    },
+    goToCart() {
+      this.$router.push('/user/cart')
+    },
   },
 }
 </script>
