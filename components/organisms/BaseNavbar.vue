@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <div>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -147,7 +147,7 @@
         </v-btn>
       </template>
     </v-app-bar>
-  </v-app>
+  </div>
 </template>
 
 <script>
